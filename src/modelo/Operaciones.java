@@ -9,7 +9,7 @@ package modelo;
  * @author Vidal Flores Montero
  */
 public class Operaciones {
-    
+    //se definen atributos de operaciones
     private int operando1;
     private int operando2;
     private double resultado;
