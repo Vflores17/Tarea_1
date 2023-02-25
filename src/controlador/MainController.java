@@ -10,9 +10,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.MouseEvent;
+import modelo.AgregarPersona;
 
 /**
  * FXML Controller class
@@ -21,8 +25,6 @@ import javafx.scene.control.ToggleGroup;
  */
 public class MainController implements Initializable {
 
-    @FXML
-    private MenuButton btnProvincia;
     @FXML
     private MenuButton btnPersona1;
     @FXML
@@ -37,7 +39,20 @@ public class MainController implements Initializable {
     private RadioButton dividir;
     @FXML
     private Button Operar;
-
+    @FXML
+    private TextField txtNombre;
+    @FXML
+    private TextField txtEdad;
+    @FXML
+    private TextField txtResultado;
+    
+    @FXML
+    private ChoiceBox<String> txtProvincias;
+    
+    private String[] Lista = {"San Jose","Alajuela","Cartago","Heredia","Guanacaste","Puntarenas","Limon"};
+    @FXML
+    private Button btnAgregar;
+    
     /**
      * Initializes the controller class.
      */
@@ -48,20 +63,25 @@ public class MainController implements Initializable {
         this.resta.setToggleGroup(tg);
         this.multiplicacion.setToggleGroup(tg);
         this.dividir.setToggleGroup(tg);
+        txtProvincias.getItems().addAll(Lista);
+        txtProvincias.setOnAction(this::getProvincia);
     }    
 
-    @FXML
-    private void enviarProvincia(ActionEvent event) {
-        System.out.println("Se oprimio boton seleccion provincia");
+    public void getProvincia(ActionEvent event){
+        String miProvincia = txtProvincias.getValue();
+        System.out.println(miProvincia);
     }
-
     @FXML
+    
     private void agregarPersona(ActionEvent event) {
-        System.out.println("Se oprimio boton agregar persona");
-    }
-
+        AgregarPersona persona = new AgregarPersona();
+        persona.setNombre(this.txtNombre.getText());
+        persona.setEdad(Integer.parseInt(this.txtEdad.getText()));
+        persona.setProvincia(txtProvincias.getValue());
+        
+    } 
     private void dividir(ActionEvent event) {
-        System.out.println("Se oprimio boton dividir");
+       
     }
 
 
@@ -100,5 +120,6 @@ public class MainController implements Initializable {
     @FXML
     private void enviarOperacion(ActionEvent event) {
     }
+
     
 }
