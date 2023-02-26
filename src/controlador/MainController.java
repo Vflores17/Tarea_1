@@ -74,10 +74,11 @@ public class MainController implements Initializable {
     @FXML
     
     private void agregarPersona(ActionEvent event) {
-        AgregarPersona persona = new AgregarPersona();
-        persona.setNombre(this.txtNombre.getText());
-        persona.setEdad(Integer.parseInt(this.txtEdad.getText()));
-        persona.setProvincia(txtProvincias.getValue());
+        String nombre = txtNombre.getText();
+        String provincia = txtProvincias.getValue();
+        int edad = Integer.parseInt(txtEdad.getText());
+        AgregarPersona persona = AgregarPersona.crearPersona(nombre,provincia, edad);
+        System.out.println(persona);
         
     } 
     private void dividir(ActionEvent event) {
