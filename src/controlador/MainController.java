@@ -5,13 +5,17 @@
 package controlador;
 
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
@@ -24,7 +28,7 @@ import modelo.AgregarPersona;
  * @author Personal
  */
 public class MainController implements Initializable {
-
+    
     @FXML
     private MenuButton btnPersona1;
     @FXML
@@ -78,7 +82,7 @@ public class MainController implements Initializable {
         String provincia = txtProvincias.getValue();
         int edad = Integer.parseInt(txtEdad.getText());
         AgregarPersona persona = AgregarPersona.crearPersona(nombre,provincia, edad);
-        System.out.println(persona);
+        
         
     } 
     private void dividir(ActionEvent event) {
@@ -88,6 +92,8 @@ public class MainController implements Initializable {
 
     @FXML
     private void enviarOperando1(ActionEvent event) {
+     
+   
     }
 
     @FXML
@@ -122,5 +128,14 @@ public class MainController implements Initializable {
     private void enviarOperacion(ActionEvent event) {
     }
 
+    @FXML
+    private void OpcionesMenu(ActionEvent event) {
+        for (Object Persona : Lista){
+        MenuItem opcionPersona = new MenuItem(txtNombre.getText());
+        btnPersona1.getItems().add(opcionPersona);
+            System.out.println("si pasa por aqui");  }
+        
+    }
+    
     
 }
