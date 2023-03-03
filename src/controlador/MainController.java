@@ -5,22 +5,20 @@
 package controlador;
 
 import java.net.URL;
-import java.util.Arrays;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.RadioButton;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
-import javafx.scene.input.MouseEvent;
 import modelo.AgregarPersona;
+import java.lang.String;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
+
 
 /**
  * FXML Controller class
@@ -28,80 +26,108 @@ import modelo.AgregarPersona;
  * @author Personal
  */
 public class MainController implements Initializable {
-    
-    @FXML
-    private MenuButton btnPersona1;
-    @FXML
-    private MenuButton btnPersona2;
-    @FXML
-    private RadioButton suma;
-    @FXML
-    private RadioButton resta;
-    @FXML
-    private RadioButton multiplicacion;
-    @FXML
-    private RadioButton dividir;
-    @FXML
-    private Button Operar;
+    private int operando1;
+    private int operando2;
+    private float resultado;
+    private int contador=0;
     @FXML
     private TextField txtNombre;
     @FXML
     private TextField txtEdad;
     @FXML
-    private TextField txtResultado;
-    
-    @FXML
     private ChoiceBox<String> txtProvincias;
     
     private String[] Lista = {"San Jose","Alajuela","Cartago","Heredia","Guanacaste","Puntarenas","Limon"};
+    
+    public static ComboBox<AgregarPersona> Personas1;
+    
+    private CheckBox seleccionPersona1;
+    private CheckBox seleccionPersona4;
+    private CheckBox seleccionPersona3;
+    private CheckBox seleccionPersona2;
+    @FXML
+    private Button suma;
+    @FXML
+    private Button multiplicar;
+    @FXML
+    private Button dividir;
+    @FXML
+    private Button resta;
     @FXML
     private Button btnAgregar;
+    @FXML
+    private TextField txtResultado;
+    @FXML
+    private ComboBox<AgregarPersona> SeleccionarPersona1=new ComboBox<>();
+    @FXML
+    private ComboBox<AgregarPersona> SeleccionarPersona2=new ComboBox<>();
     
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        ToggleGroup tg = new ToggleGroup();
-        this.suma.setToggleGroup(tg);
-        this.resta.setToggleGroup(tg);
-        this.multiplicacion.setToggleGroup(tg);
-        this.dividir.setToggleGroup(tg);
         txtProvincias.getItems().addAll(Lista);
-        txtProvincias.setOnAction(this::getProvincia);
-    }    
+        txtProvincias.setOnAction(this::txtProvincia);
+        //seleccionPersona1.setDisable(true);
+        //seleccionPersona2.setDisable(true);
+        //seleccionPersona3.setDisable(true);
+        //seleccionPersona4.setDisable(true);
+    }
 
-    public void getProvincia(ActionEvent event){
+
+    public void txtProvincia(ActionEvent event){
         String miProvincia = txtProvincias.getValue();
+        if(miProvincia!=null){
         System.out.println(miProvincia);
+        }
     }
     @FXML
     
     private void agregarPersona(ActionEvent event) {
+        
         String nombre = txtNombre.getText();
         String provincia = txtProvincias.getValue();
         int edad = Integer.parseInt(txtEdad.getText());
-        AgregarPersona persona = AgregarPersona.crearPersona(nombre,provincia, edad);
-        
-        
-    } 
-    private void dividir(ActionEvent event) {
-       
+        if(contador >3){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Número máximo de personas alcanzado");
+            alert.setContentText("Solo se pueden ingresar 4 personas.");
+            alert.showAndWait();
+            return;
+        }
+            try {
+             if (nombre.isEmpty() || provincia == null || edad <= 0) {
+                 Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("Faltan datos");
+                    alert.setContentText("Debe ingresar todos los datos.");
+                    alert.showAndWait();
+                });
+            }else {
+                 contador++;
+                 AgregarPersona nuevaPersona = new AgregarPersona(nombre,provincia,edad);
+                 SeleccionarPersona1.getItems().add(nuevaPersona);
+                 SeleccionarPersona2.getItems().add(nuevaPersona);
+                 System.out.println(nuevaPersona);
+                 }
+            } catch (NumberFormatException e) {
+                   Alert alert = new Alert(Alert.AlertType.ERROR);
+                   alert.setTitle("Error");
+                   alert.setHeaderText("Error de formato");
+                   alert.setContentText("La edad debe ser un número entero.");
+                   alert.showAndWait();
+            }
     }
+    
+    
 
-
-    @FXML
-    private void enviarOperando1(ActionEvent event) {
-     
-   
-    }
-
-    @FXML
-    private void enviarOperando2(ActionEvent event) {
-    }
 
     @FXML
     private void stringNombre(ActionEvent event) {
+        String nombre = txtNombre.getText();
     }
 
     @FXML
@@ -109,33 +135,42 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    private void enviarSuma(ActionEvent event) {
+    private void SUMAR(ActionEvent event) {
+        operando1=SeleccionarPersona1.getValue().getEdad();
+        operando2=SeleccionarPersona2.getValue().getEdad();
+        resultado=operando1+operando2;
+        txtResultado.setText(resultado+" ");
+        System.out.println(resultado);
     }
 
     @FXML
-    private void enviarResta(ActionEvent event) {
+    private void MULTIPLICAR(ActionEvent event) {
+        operando1=SeleccionarPersona1.getValue().getEdad();
+        operando2=SeleccionarPersona2.getValue().getEdad();
+        resultado=operando1*operando2;
+        txtResultado.setText(resultado+" ");
+        System.out.println(resultado);
     }
 
     @FXML
-    private void enviarMultiplicacion(ActionEvent event) {
+    private void DIVIDIR(ActionEvent event) {
+        operando1=SeleccionarPersona1.getValue().getEdad();
+        operando2=SeleccionarPersona2.getValue().getEdad();
+        resultado=operando1/operando2;
+        txtResultado.setText(resultado+" ");
+        System.out.println(resultado);
     }
 
     @FXML
-    private void enviarDivision(ActionEvent event) {
+    private void RESTAR(ActionEvent event) {
+        operando1=SeleccionarPersona1.getValue().getEdad();
+        operando2=SeleccionarPersona2.getValue().getEdad();
+        resultado=operando1-operando2;
+        txtResultado.setText(resultado+" ");
+        System.out.println(resultado);
     }
 
-    @FXML
-    private void enviarOperacion(ActionEvent event) {
-    }
-
-    @FXML
-    private void OpcionesMenu(ActionEvent event) {
-        for (Object Persona : Lista){
-        MenuItem opcionPersona = new MenuItem(txtNombre.getText());
-        btnPersona1.getItems().add(opcionPersona);
-            System.out.println("si pasa por aqui");  }
-        
-    }
     
     
-}
+    }
+    
