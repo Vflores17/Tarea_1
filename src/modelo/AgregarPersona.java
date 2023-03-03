@@ -4,118 +4,62 @@
  */
 package modelo;
 
-import java.util.ArrayList;
-import javafx.application.Platform;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
-
 /**
  *
- * @author Personal
+ * @author Vidal Flores Montero carne 2021579554
  */
+
+    /*se define la clase AgregarPersona */
 public class AgregarPersona {
-    
-    private static int contadorInstancias = 0;
-    private static ArrayList<AgregarPersona> PersonasLista=new ArrayList<>();
+    //se definen las variables a utilizar para poder genera el objeto "persona"
     private String Nombre;
     private String Provincia;
     private int edad;
     
-    
+    //se define el contructor de la clase
     public AgregarPersona(String Nombre, String Provincia,int edad) {
         this.Nombre = Nombre;
         this.Provincia = Provincia;
-        this.edad = edad;
-        this.PersonasLista = new ArrayList<>();
-        
+        this.edad = edad;   
     }
     
+    //se define el getter de nombre
     public String getNombre() {
         return Nombre;
     }
-
+    //se define el setter de nombre
     public void setNombre(String Nombre) {
         this.Nombre = Nombre;
     }
-
+    //se define el getter de provincia
     public String getProvincia() {
         return Provincia;
     }
-
+    //se define el setter de provincia
     public void setProvincia(String Provincia) {
         this.Provincia = Provincia;
     }
-
+    // se define el getter de edad
     public int getEdad() {
         return edad;
     }
-
+    // se define el setter de edad
     public void setEdad(int edad) {
         this.edad = edad;
-    }
-    /*public ArrayList<AgregarPersonas> retonarListaPersonas(){
-    Personas nueva=null;
-    int contador =0;
-    for (int i=0,i<PersonasLista.size();i++){
-        nueva = PersonasLista.get(i);
-    }*/
-
-    public static AgregarPersona crearPersona(String Nombre, String Provincia, int edad) {
         
-        if(contadorInstancias >3){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Número máximo de personas alcanzado");
-            alert.setContentText("Solo se pueden ingresar 4 personas.");
-            alert.showAndWait();
-            return null;
-        }
-            try {
-             if (Nombre.isEmpty() || Provincia == null || edad <= 0) {
-                 Platform.runLater(() -> {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error");
-                    alert.setHeaderText("Faltan datos");
-                    alert.setContentText("Debe ingresar todos los datos.");
-                    alert.showAndWait();
-                });
-                return null;
-            }else {
-                 contadorInstancias++;
-                 AgregarPersona nuevaPersona = new AgregarPersona(Nombre, Provincia, edad);
-                 if(nuevaPersona !=null){
-                     PersonasLista.add(nuevaPersona);
-                     return nuevaPersona;
-                 }
-             }
-            } catch (NumberFormatException e) {
-                   Alert alert = new Alert(Alert.AlertType.ERROR);
-                   alert.setTitle("Error");
-                   alert.setHeaderText("Error de formato");
-                   alert.setContentText("La edad debe ser un número entero.");
-                   alert.showAndWait();
-            }
-                   return null;
-    }
-    
-    public Menu getMenu(){
-        Menu menu = new Menu("Seleccione una persona");
-        for (AgregarPersona persona : PersonasLista){
-            MenuItem item = new MenuItem(persona.getNombre() + " - " + persona.getProvincia() + " - " + persona.getEdad());
-            item.setOnAction(e -> {
-                // hacer algo cuando se seleccione el item
-            });
-            menu.getItems().add(item);
-        }
-        return menu;
-    
-    
-    
-    
-    
     
     }
+    @Override
+    /*se define el metodo toString para poder imprimir en consola y mostrar en 
+    los comboBox los atributos mas representativos y no su notacion paquete.clase@hashexadecimal*/
+    public String toString(){
+    
+        return getNombre() + " "+ getEdad();
+    
+    }
+       
+ }
+
     
     
     
@@ -127,4 +71,4 @@ public class AgregarPersona {
     
     
     
-}
+
